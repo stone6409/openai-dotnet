@@ -88,4 +88,29 @@ public partial class ChatCompletionOptions
             logitBias = dictionary;
         }
     }
+
+    // CUSTOM: Added for DeepSeek API thinking mode support
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal void WriteThinkingProperty(Utf8JsonWriter writer, ModelReaderWriterOptions options)
+    {
+        if (ThinkingEnabled.HasValue)
+        {
+            writer.WritePropertyName("thinking"u8);
+            writer.WriteStartObject();
+            writer.WritePropertyName("type"u8);
+            writer.WriteStringValue(ThinkingEnabled.Value ? "enabled" : "disabled");
+            writer.WriteEndObject();
+        }
+    }
+
+    // CUSTOM: Added for DeepSeek API thinking mode support
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal void WriteReasoningEffortProperty(Utf8JsonWriter writer, ModelReaderWriterOptions options)
+    {
+        if (!string.IsNullOrEmpty(ReasoningEffort))
+        {
+            writer.WritePropertyName("reasoning_effort"u8);
+            writer.WriteStringValue(ReasoningEffort);
+        }
+    }
 }

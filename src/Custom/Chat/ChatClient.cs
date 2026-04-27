@@ -405,6 +405,19 @@ public partial class ChatClient
             clonedOptions.Stream = null;
             clonedOptions.StreamOptions = null;
         }
+        
+        // 添加 DeepSeek API 特定的思考模式参数
+        if (clonedOptions.ThinkingEnabled.HasValue)
+        {
+            var thinkingJson = $"{{\"type\": \"{ (clonedOptions.ThinkingEnabled.Value ? "enabled" : "disabled" )}\"}}";
+            clonedOptions.Patch.Set("$.thinking"u8, System.Text.Encoding.UTF8.GetBytes(thinkingJson));
+        }
+        
+        if (!string.IsNullOrEmpty(clonedOptions.ReasoningEffort))
+        {
+            clonedOptions.Patch.Set("$.reasoning_effort"u8, System.Text.Encoding.UTF8.GetBytes(clonedOptions.ReasoningEffort));
+        }
+        
         return clonedOptions;
     }
 }

@@ -1,9 +1,11 @@
 using Microsoft.TypeSpec.Generator.Customizations;
+using OpenAI;
 using System;
 using System.ClientModel;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 
 namespace OpenAI.Chat;
@@ -160,6 +162,21 @@ public partial class ChatCompletionOptions
     [CodeGenMember("ReasoningEffort")]
     public ChatReasoningEffortLevel? ReasoningEffortLevel { get; set; }
 
+    // CUSTOM: Added for DeepSeek API thinking mode support
+    /// <summary>
+    /// (DeepSeek models only) Controls whether the model uses thinking mode.
+    /// </summary>
+    [Experimental("OPENAI001")]
+    public bool? ThinkingEnabled { get; set; }
+
+    // CUSTOM: Added for DeepSeek API thinking mode support
+    /// <summary>
+    /// (DeepSeek models only) Controls the reasoning effort level for thinking mode.
+    /// Currently supported values are "high" and "max".
+    /// </summary>
+    [Experimental("OPENAI001")]
+    public string ReasoningEffort { get; set; }
+
     // CUSTOM: Made internal for automatic enablement via audio options.
     [CodeGenMember("Modalities")]
     private IList<InternalCreateChatCompletionRequestModality> InternalModalities
@@ -238,6 +255,8 @@ public partial class ChatCompletionOptions
         foreach (var m in Metadata) clone.Metadata[m.Key] = m.Value;
         clone.StoredOutputEnabled = StoredOutputEnabled;
         clone.ReasoningEffortLevel = ReasoningEffortLevel;
+        clone.ThinkingEnabled = ThinkingEnabled;
+        clone.ReasoningEffort = ReasoningEffort;
         clone.InternalModalities = _internalModalities?.ToList();
         clone.ResponseModalities = _responseModalities;
         clone.ResponseFormat = ResponseFormat;
