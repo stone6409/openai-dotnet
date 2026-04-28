@@ -1,4 +1,4 @@
-using Microsoft.TypeSpec.Generator.Customizations;
+﻿using Microsoft.TypeSpec.Generator.Customizations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -177,6 +177,9 @@ public partial class AssistantChatMessage : ChatMessage
         {
             ToolCalls.Add(toolCall);
         }
+
+        // CUSTOM: Copy reasoning content from ChatCompletion for DeepSeek API thinking mode support
+        ReasoningContent = chatCompletion.ReasoningContent;
     }
 
     // CUSTOM: Renamed.

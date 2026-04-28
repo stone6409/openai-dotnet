@@ -1,7 +1,10 @@
-using Microsoft.TypeSpec.Generator.Customizations;
+﻿using Microsoft.TypeSpec.Generator.Customizations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
+
+#nullable enable
 
 namespace OpenAI.Chat;
 
@@ -91,4 +94,23 @@ public partial class ChatCompletion
     // CUSTOM: Added Experimental attribute.
     [Experimental("OPENAI001")]
     public IReadOnlyList<ChatMessageAnnotation> Annotations => [.. Choices[0].Message.Annotations];
+
+    // CUSTOM: Added for DeepSeek API thinking mode support
+    /// <summary>
+    /// (DeepSeek models only) The reasoning content associated with the message, used in thinking mode.
+    /// </summary>
+    [Experimental("OPENAI001")]
+    public string? ReasoningContent
+    {
+        get
+        {
+            // reasoning_content 位于 choices[0].message 中，通过 Patch 传播机制访问
+            if (Choices.Count > 0 && Choices[0].Message.Patch.Contains("$.reasoning_content"u8))
+            {
+                return Choices[0].Message.Patch.GetString("$.reasoning_content"u8);
+            }
+
+            return null;
+        }
+    }
 }
