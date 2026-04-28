@@ -188,6 +188,7 @@ namespace OpenAI.Chat
                     id = prop.Value.GetString();
                     continue;
                 }
+                // ¹Ø¼üµã£º
                 if (prop.NameEquals("choices"u8))
                 {
                     List<InternalCreateChatCompletionResponseChoice> array = new List<InternalCreateChatCompletionResponseChoice>();

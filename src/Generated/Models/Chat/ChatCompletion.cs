@@ -29,6 +29,7 @@ namespace OpenAI.Chat
 #pragma warning disable SCME0001 // Type is for evaluation purposes only and is subject to change or removal in future updates.
         internal ChatCompletion(string id, IReadOnlyList<InternalCreateChatCompletionResponseChoice> choices, DateTimeOffset createdAt, string model, ChatServiceTier? serviceTier, string systemFingerprint, string @object, ChatTokenUsage usage, in JsonPatch patch)
         {
+            // πÿº¸µ„£∫…Ë÷√Choices
             // Plugin customization: ensure initialization of collections
             Id = id;
             Choices = choices ?? new ChangeTrackingList<InternalCreateChatCompletionResponseChoice>();
