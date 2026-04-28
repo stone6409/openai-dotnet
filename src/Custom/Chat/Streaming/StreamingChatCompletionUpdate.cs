@@ -1,4 +1,4 @@
-using Microsoft.TypeSpec.Generator.Customizations;
+﻿using Microsoft.TypeSpec.Generator.Customizations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -119,4 +119,25 @@ public partial class StreamingChatCompletionUpdate
     /// </summary>
     [Experimental("OPENAI001")]
     public StreamingChatOutputAudioUpdate OutputAudioUpdate => InternalChoiceDelta?.Audio;
+
+#nullable enable
+
+    // CUSTOM: Added for DeepSeek API thinking mode support
+    /// <summary>
+    /// (DeepSeek models only) The reasoning content associated with the message, used in thinking mode.
+    /// </summary>
+    [Experimental("OPENAI001")]
+    public string? ReasoningContent
+    {
+        get
+        {
+            // reasoning_content 位于 delta 中，通过 Patch 传播机制访问
+            if (InternalChoiceDelta is not null && InternalChoiceDelta.Patch.Contains("$.reasoning_content"u8))
+            {
+                return InternalChoiceDelta.Patch.GetString("$.reasoning_content"u8);
+            }
+
+            return null;
+        }
+    }
 }
