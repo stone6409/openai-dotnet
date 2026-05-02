@@ -64,13 +64,6 @@ public partial class ChatMessage
     /// </summary>
     public ChatMessageContent Content { get; }
 
-    // CUSTOM: Added for DeepSeek API thinking mode support
-    /// <summary>
-    /// (DeepSeek models only) The reasoning content associated with the message, used in thinking mode.
-    /// </summary>
-    [Experimental("OPENAI001")]
-    public string ReasoningContent { get; set; }
-
     // CUSTOM: Changed type from string to ChatMessageRole.
     [CodeGenMember("Role")]
     internal ChatMessageRole Role { get; set; }

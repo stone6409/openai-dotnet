@@ -182,6 +182,13 @@ public partial class AssistantChatMessage : ChatMessage
         ReasoningContent = chatCompletion.ReasoningContent;
     }
 
+    // CUSTOM: Added for DeepSeek API thinking mode support
+    /// <summary>
+    /// (DeepSeek models only) The reasoning content associated with the message, used in thinking mode.
+    /// </summary>
+    [Experimental("OPENAI001")]
+    public string ReasoningContent { get; set; }
+
     // CUSTOM: Renamed.
     /// <summary>
     /// An optional <c>name</c> associated with the assistant message. This is typically defined with a <c>system</c>
